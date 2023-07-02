@@ -4,6 +4,9 @@
 package ryanshy;
 
 import org.junit.Test;
+
+import ryanshy.sankaku_desktop_app.App;
+
 import static org.junit.Assert.*;
 
 public class AppTest {

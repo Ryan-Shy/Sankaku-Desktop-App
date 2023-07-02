@@ -22,9 +22,22 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
+    // add zip4j dependency
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
+    // add apache commons io
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation 'commons-io:commons-io:2.13.0'
+	// add Jackson lib for JSON parsing
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 }
 
 application {
     // Define the main class for the application.
-    mainClass = 'ryanshy.App'
+    mainClass = 'ryanshy.sankaku_desktop_app.App'
+}
+
+jar {
+	manifest {
+		attributes 'Main-Class': application.mainClass
+	}
 }
