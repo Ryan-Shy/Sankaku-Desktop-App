@@ -26,6 +26,18 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" output="bin/updater" path="src/updater/java">
+		<attributes>
+			<attribute name="gradle_scope" value="updater"/>
+			<attribute name="gradle_used_by_scope" value="updater"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="bin/updater" path="src/updater/resources">
+		<attributes>
+			<attribute name="gradle_scope" value="updater"/>
+			<attribute name="gradle_used_by_scope" value="updater"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17/"/>
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
 	<classpathentry kind="output" path="bin/default"/>

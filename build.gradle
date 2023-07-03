@@ -9,6 +9,8 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    // Apply the javaFX plugin
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 repositories {
@@ -29,6 +31,29 @@ dependencies {
 	implementation 'commons-io:commons-io:2.13.0'
 	// add Jackson lib for JSON parsing
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+	// add javafx
+	implementation 'org.openjfx:javafx:21-ea+23'
+}
+
+javafx {
+    version = "20"
+    modules = [ 'javafx.controls' ]
+}
+
+sourceSets {
+	updater {
+		java {
+			srcDirs += [
+				'src/updater/java/'
+			]
+		}
+		resources {
+			srcDirs += [
+				'src/updater/resources/'
+			]
+		}
+		compileClasspath += sourceSets.main.runtimeClasspath
+	}
 }
 
 application {
@@ -36,8 +61,42 @@ application {
     mainClass = 'ryanshy.sankaku_desktop_app.App'
 }
 
+task updaterJar(type: Jar) {
+	from sourceSets.updater.output
+	manifest {
+		attributes 'Main-Class': 'ryanshy.sankaku_desktop_updater.Updater'
+	}
+	archiveBaseName = 'Sankaku-Desktop-Updater'
+	archiveVersion = '0.0.1'
+	
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from {
+		configurations.runtimeClasspath.collect {
+			if(it.getName().contains("jackson")
+				|| it.getName().contains("zip4j") 
+				|| it.getName().contains("commons-io")) {
+				it.isDirectory() ? it : zipTree(it)
+			}
+		}
+	}
+	with jar
+}
+
+distributions {
+	main {
+		contents {
+			from ('build/libs') {
+				include '*Updater*.jar'
+			}
+		}
+	}
+}
+
+tasks.named('jar') {dependsOn('updaterJar')}
+
 jar {
 	manifest {
 		attributes 'Main-Class': application.mainClass
 	}
+	archiveVersion = '0.0.1'
 }
